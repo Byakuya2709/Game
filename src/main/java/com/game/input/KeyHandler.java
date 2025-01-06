@@ -5,6 +5,7 @@
 package com.game.input;
 
 import com.game.main.GamePanel;
+import com.game.state.GameState;
 import static com.game.utils.Constants.Direction.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -28,54 +29,28 @@ public class KeyHandler implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        int code =  e.getKeyCode();
-     
-        switch(code){
-            case KeyEvent.VK_W -> {  
-               this.gp.player.setUp(true);
-            break;
+          switch(GameState.state){
+            case MENU ->{
+                gp.menu.keyPressed(e);
+                break;
             }
-            case KeyEvent.VK_S -> {  
-              this.gp.player.setDown(true);
-            break;
-            }
-            case KeyEvent.VK_A -> {  
-                  this.gp.player.setLeft(true);
-            break;
-            }
-            case KeyEvent.VK_D -> { 
-                this.gp.player.setRight(true);
-            break;
-            }
-             case KeyEvent.VK_SPACE -> { 
-                this.gp.player.setJump(true);
-            break;
+            case PLAYING ->{
+                gp.playing.keyPressed(e);
+                break;
             }
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-         int code =  e.getKeyCode();
-         switch(code){
-            case KeyEvent.VK_W -> {  
-               this.gp.player.setUp(false);
-            break;
+         switch(GameState.state){
+            case MENU ->{
+                gp.menu.keyReleased(e);
+                break;
             }
-            case KeyEvent.VK_S -> {  
-               this.gp.player.setDown(false);
-            break;
-            }
-            case KeyEvent.VK_A -> {  
-             this.gp.player.setLeft(false);
-            }
-            case KeyEvent.VK_D -> { 
-             this.gp.player.setRight(false);
-            break;
-            }
-             case KeyEvent.VK_SPACE -> { 
-                this.gp.player.setJump(false);
-            break;
+            case PLAYING ->{
+                gp.playing.keyReleased(e);
+                break;
             }
         }
     }

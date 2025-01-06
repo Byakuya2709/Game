@@ -52,16 +52,21 @@ public class Player extends Entity {
      
     public Player(float x, float y,float speed,int width, int height, GamePanel gp) {
         super(x,y,speed,width,height);
+        this.gp=gp;
         subImage = new BufferedImage[24];
         animation = new BufferedImage[8][3];
         loadAnimation();     
-        this.gp=gp;
+        initHitBox(x,y,(int)(24*gp.scale),(int)(24*gp.scale));
         
-        initHitBox(x,y,24*gp.scale,24*gp.scale);
-        if(!IsEntityOnFloor(hitbox,gp.tileManager.level1.tileMatrix)){
-                    inAir=true;
-                }
     }
+      public void checkInAir() {
+        if (!IsEntityOnFloor(hitbox, gp.playing.tileManager.level1.tileMatrix)) {
+            inAir = true;
+        } else {
+            inAir = false;
+        }
+  }
+      
     public void update(){
        updatePosition();
 //       updateHitBox();
@@ -72,12 +77,9 @@ public class Player extends Entity {
         
        
     }
-    public void draw(Graphics2D g2){
-        
-       
-       
-       g2.drawImage(animation[playerAction][animationIndex],(int)(hitbox.x-xDrawOffset),(int)(hitbox.y-yDrawOffset),width,height, null);
-       drawHitBox(g2);
+    public void draw(Graphics2D g2,int xLvlOffSet){
+       g2.drawImage(animation[playerAction][animationIndex],(int)(hitbox.x-xDrawOffset)-xLvlOffSet,(int)(hitbox.y-yDrawOffset),width,height, null);
+       drawHitBox(g2,xLvlOffSet);
     }
     
     public void resestDirection(){
@@ -160,7 +162,7 @@ public class Player extends Entity {
        }
   
        public void updatePosition(){
-
+            
              moving=false;
              
              if(jump) jump();
@@ -178,13 +180,13 @@ public class Player extends Entity {
               
             }
             if(!inAir){
-                if(!IsEntityOnFloor(hitbox,gp.tileManager.level1.tileMatrix)){
+                if(!IsEntityOnFloor(hitbox,gp.playing.tileManager.level1.tileMatrix)){
                     inAir=true;
                 }
             }
             if (inAir){
                 //giảm y
-                if(CanMoveHere(hitbox.x,hitbox.y+airSpeed,hitbox.width,hitbox.height,gp.tileManager.level1.tileMatrix)){
+                if(CanMoveHere(hitbox.x,hitbox.y+airSpeed,hitbox.width,hitbox.height,gp.playing.tileManager.level1.tileMatrix)){
                     hitbox.y+=airSpeed;
                     airSpeed+=gravity;
                     updateXPosition(xSpeed);
@@ -216,7 +218,7 @@ public class Player extends Entity {
 
        }
       public void updateXPosition(float xSpeed){
-          if(CanMoveHere(hitbox.x+xSpeed,hitbox.y,hitbox.width,hitbox.height,gp.tileManager.level1.tileMatrix)){
+          if(CanMoveHere(hitbox.x+xSpeed,hitbox.y,hitbox.width,hitbox.height,gp.playing.tileManager.level1.tileMatrix)){
                 hitbox.x+=xSpeed;
                 moving=true;
             }
@@ -235,6 +237,7 @@ public class Player extends Entity {
         inAir=false;
         airSpeed=0;
     }
+   
     public boolean isLeft() {
         return left;
     }

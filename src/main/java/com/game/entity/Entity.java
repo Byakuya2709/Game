@@ -30,13 +30,14 @@ public abstract class Entity {
         this.width=width;
         this.height=height;
     }
-     protected void drawHitBox(Graphics2D g2){
+     protected void drawHitBox(Graphics2D g2,int xLvlOffSet){
        g2.setColor(Color.RED);
-       g2.drawRect((int)hitbox.x, (int)hitbox.y,(int) hitbox.width, (int)hitbox.height);
+       g2.drawRect((int)hitbox.x-xLvlOffSet, (int)hitbox.y,(int) hitbox.width, (int)hitbox.height);
     }
-    protected void initHitBox(float x, float y,float width,float height){
+    protected void initHitBox(float x, float y,int width,int height){
         hitbox = new Rectangle2D.Float(x,y,width,height);
     }
+    
 //    protected void updateHitBox(){
 //        hitbox.x=(int)x;
 //        hitbox.y=(int)y;

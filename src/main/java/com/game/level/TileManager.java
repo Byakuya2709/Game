@@ -14,10 +14,11 @@ import javax.imageio.ImageIO;
 
 public class TileManager {
     private final GamePanel gamePanel;
-    private final Map<String, Tile> tileMap;
+    private final  Map<String, Tile> tileMap;
 //    private final List<List<Integer>> tileMatrix = new ArrayList<>();
     
     private List<Level> maps = new ArrayList<>();
+    
     private static final int GRASS = 0;
     private static final int WALL = 1;
     private static final int WATER = 2;
@@ -61,29 +62,11 @@ public class TileManager {
     public void update(){
         
     }
-    public void draw(Graphics2D g2) {
-        int tileWidth = gamePanel.tileSize;
-        int tileHeight = gamePanel.tileSize;
-
-        for (int worldRow = 0; worldRow < level1.tileMatrix.size(); worldRow++) {
-            for (int worldCol = 0; worldCol < level1.tileMatrix.get(worldRow).size(); worldCol++) {
-                
-                int tileValue = level1.tileMatrix.get(worldRow).get(worldCol);
-                
-                String tileName = getTileName(tileValue);
-
-                Tile tile = tileMap.get(tileName);
-                int worldX = worldCol * tileWidth;
-                int worldY = worldRow * tileHeight;
-
-                if (tile != null && tile.image != null) {
-                    g2.drawImage(tile.image, worldX, worldY, tileWidth, tileHeight, null);
-                }
-            }
-        }
+    public void draw(Graphics2D g2,int xLvlOffSet) {
+             level1.draw(g2,tileMap,xLvlOffSet);
     }
 
-    private String getTileName(int tileValue) {
+    public static String getTileName(int tileValue) {
         switch (tileValue) {
             case WALL: return "wall";
             case WATER: return "water";

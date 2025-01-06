@@ -22,7 +22,8 @@ public class HelpMethod {
         return true;
     }
     private static boolean isSolid(float x, float y,List<List<Integer>> level){
-        if (x < 0 || x >= GamePanel.width) 
+        int maxWidth = level.get(0).size()*GamePanel.tileSize;
+        if (x < 0 || x >= maxWidth) 
             return true;
         if (y < 0 || y >= GamePanel.height)
             return true;
@@ -75,4 +76,8 @@ public class HelpMethod {
         }
         return true;
     }
+    public static boolean isFloor(Rectangle2D.Float hitbox,float xSpeed,List<List<Integer>> level){
+        return isSolid(hitbox.x+xSpeed,hitbox.y+hitbox.height+1,level);
+    }
+    
 }

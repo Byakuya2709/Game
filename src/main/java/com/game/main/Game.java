@@ -12,7 +12,7 @@ import com.game.entity.Player;
  */
 public class Game implements Runnable{
     private GameWindow gameWindow;
-    private GamePanel gamePanel;
+    public GamePanel gamePanel;
     private Thread gameThread;
     private final int FPS=60;
     private final int UPS=90;
@@ -21,7 +21,14 @@ public class Game implements Runnable{
     public Game(){
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
+        
+        
+        
+         if (gamePanel.playing != null && gamePanel.playing.player != null) {
+                gamePanel.playing.player.checkInAir();
+        }
         startGameLoop();
+        
     }
     
     public void startGameLoop(){
